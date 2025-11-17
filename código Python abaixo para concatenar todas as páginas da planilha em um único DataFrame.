@@ -1,5 +1,0 @@
-planilhas = [] for i in range(1, 701): planilha = pd.read_excel('/content/drive/MyDrive/Python/PGV 2018 - 2017-06-12 COM Bairros.xlsx', sheet_name=f'Sheet{i}') planilhas.append(planilha)
-
-df_total = pd.concat(planilhas, ignore_index=True)
-
-df_total.to_excel('PGV2018total.xlsx')
