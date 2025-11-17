@@ -1,0 +1,52 @@
+ import pandas as pd
+from unidecode import unidecode
+
+# Definir mapeamento de abreviações para nomes completos mapeamento_abreviacoes = {
+
+ 
+'AVN': 'Avenida',
+'BEC': 'Beco',
+'CAM': 'Caminho',
+'EST': 'Estrada',
+'ETR': 'Estrada',
+'LAD': 'Ladeira',
+'LRG': 'Largo',
+'PQE': 'Parque',
+'PRA': 'Praia',
+'PRC': 'Praça'
+}
+
+# Função para limpar logradouro def limpar_logradouro(logradouro):
+if pd.notna(logradouro): # Verificar se o valor não é nulo # Substituir abreviações pelos nomes completos
+for abreviacao, nome_completo in mapeamento_abreviacoes.items():
+logradouro = logradouro.replace(abreviacao, nome_completo)
+# Remover acentuação e converter para minúsculas return unidecode(logradouro).lower()
+else:
+return logradouro
+
+# Carregar os dados das planilhas df_iptu =
+pd.read_excel("/content/drive/MyDrive/Python/IPTU2023_M.xlsx") df_pgv = pd.read_excel("/content/drive/MyDrive/Python/PGV2024_IPCA- E-1,3774369768.xlsx")
+
+# Aplicar a função limpar_logradouro aos logradouros de ambas as planilhas
+df_iptu['LOGRADOURO'] = df_iptu['LOGRADOURO'].apply(limpar_logradouro) df_pgv['LOGRADOURO'] =
+df_pgv['LOGRADOURO'].apply(limpar_logradouro)
+
+# Agrupar por logradouro e calcular a média dos valores para cada tributacao
+df_pgv_mean = df_pgv.groupby('LOGRADOURO').mean().reset_index()
+
+# Renomear as colunas para evitar ambiguidade após o merge df_pgv_mean.rename(columns={'VR': 'VR_mean', 'VN': 'VN_mean', 'V0': 'V0_mean'}, inplace=True)
+
+
+# Mesclar os DataFrames usando o logradouro como chave df_merged = pd.merge(df_iptu, df_pgv_mean, on='LOGRADOURO', how='left')
+
+# Função para escolher o valor correspondente à tributacao def escolher_valor(row):
+tributacao = row['tributacao'] if tributacao == 'R':
+return row['VR_mean'] elif tributacao == 'N':
+return row['VN_mean'] elif tributacao == 'T':
+return row['V0_mean'] else:
+return None
+
+# Aplicar a função para criar a coluna VALOR df_merged['VALOR'] = df_merged.apply(escolher_valor, axis=1)
+
+# Salvar o DataFrame atualizado de volta para a planilha df_merged.to_excel("/content/drive/MyDrive/Python/IPTU2023_M_com_va lor.xlsx", index=False)
+
