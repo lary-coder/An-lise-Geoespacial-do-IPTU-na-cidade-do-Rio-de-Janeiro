@@ -1,0 +1,10 @@
+import pandas as pd
+# Carregar o DataFrame com os valores
+df_iptu_com_valor
+pd.read_excel("/content/drive/MyDrive/Python/IPTU2023_M_com_valor.x
+lsx")
+# Contar o total de logradouros com valores nulos na coluna VALOR
+total_logradouros_nulos = df_iptu_com_valor['VALOR'].isnull().sum()
+# Imprimir o total de logradouros nulos
+print("Total de logradouros na planilha:", len(df_iptu_com_valor))
+print("Total de logradouros com valores nulos na coluna VALOR:", total_logradouros_nulos)
