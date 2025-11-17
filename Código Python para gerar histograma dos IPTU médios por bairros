@@ -1,0 +1,23 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Carregando os dados df =
+pd.read_excel('/content/drive/MyDrive/Python/PlanilhaIPTU_PGV_Censo RJmapa.xlsx', sheet_name='Censo2022RJ')
+
+# Selecionando as colunas desejadas
+df = df[['Bairro', 'IPTU_N', 'IPTU_R', 'IPTU_T']]
+
+# Agrupando por 'Bairro' e calculando a soma das outras colunas df_grouped = df.groupby('Bairro').sum()
+
+# Criando o histograma fig, ax = plt.subplots()
+df_grouped.plot(kind='bar', stacked=True, ax=ax)
+
+# Adicionando título e rótulos aos eixos ax.set_title('Histograma de IPTU por Bairro') ax.set_xlabel('Bairro')
+ax.set_ylabel('Valor do IPTU')
+
+# Dividindo o eixo Y em 4 quartis
+
+ax.yaxis.set_ticks([df_grouped.sum(axis=1).quantile(i/4) for i in range(5)])
+
+plt.show()
+
