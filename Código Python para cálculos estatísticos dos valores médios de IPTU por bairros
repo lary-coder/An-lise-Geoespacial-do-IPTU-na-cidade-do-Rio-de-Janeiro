@@ -1,0 +1,25 @@
+import pandas as pd
+
+# Carregar o arquivo Excel file_path =
+'/content/drive/MyDrive/Python/PlanilhaIPTU_PGV_CensoRJmapa.xlsx' df = pd.read_excel(file_path, sheet_name='Censo2022RJ')
+
+# Selecionar as colunas IPTU_N, IPTU_R e IPTU_T iptu_cols = ['IPTU_N', 'IPTU_R', 'IPTU_T'] data = df[iptu_cols]
+
+# Calcular média media = data.mean()
+
+# Calcular moda
+moda = data.mode().iloc[0]
+
+# Calcular mediana mediana = data.median()
+
+# Calcular desvio padrão desvio_padrao = data.std()
+
+# Calcular coeficiente de variação coef_variacao = (desvio_padrao / media) * 100
+
+# Exibir os resultados estatisticas = pd.DataFrame({
+'Média': media, 'Moda': moda, 'Mediana': mediana,
+'Desvio Padrão': desvio_padrao,
+'Coeficiente de Variação (%)': coef_variacao
+})
+
+print(estatisticas)
